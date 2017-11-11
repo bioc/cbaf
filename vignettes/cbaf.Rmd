@@ -171,7 +171,7 @@ It requires at least two arguments:
 
 Function also contains four other options:
 
-- __calculate__, a character vector that contains the desired statistical procedures. The complete input is `c("frequencyPercentage", "frequencyRatio", "meanValue")` while the complete input is `c("frequencyPercentage", "frequencyRatio", "meanValue", "medianValue")`. This will tell the function to compute the following:
+- __calculate__, a character vector that contains the desired statistical procedures. Default input is `c("frequencyPercentage", "frequencyRatio", "meanValue")`. To get all the statistics, use the following instead: `c("frequencyPercentage", "frequencyRatio", "meanValue", "medianValue")`. This will tell the function to compute the following:
 
     + _frequencyPercentage_, which is the percentage of samples having the value greather than specific cutoff divided by the total sample size for every study / study subgroup
     
@@ -316,7 +316,7 @@ Function also contains nineteen other options:
 
 - __validateGenes__ a logical value that, if set to be `TRUE`, function will check each cancer subgroup to find whether or not every gene has a record. If the subgroup doesn't have a record for the specific gene, function checks for alternative gene names that cbioportal might use instead of the given gene name.
 
-- __calculate__, a character vector that contains the desired statistical procedures. Default input is `c("frequencyPercentage", "frequencyRatio", "meanValue", "medianValue")`.
+- __calculate__, a character vector that contains the desired statistical procedures. Default input is `c("frequencyPercentage", "frequencyRatio", "meanValue")`. To get all the statistics, use the following instead: `c("frequencyPercentage", "frequencyRatio", "meanValue", "medianValue")`.
 
 - __cutoff__, a number used to limit samples to those that are greater than this number (cutoff). The default value for methylation data is 0.6 while gene expression studies use default value of 2. For methylation studies, it is _observed/expected ratio_, for the rest, it is _z-score_. To change the cutoff to any desired number, change the option to `cutoff = desiredNumber` in which desiredNumber is the number of interest.
 
@@ -389,7 +389,7 @@ Function also contains nineteen other options:
 
 - __validateGenes__ a logical value that, if set to be `TRUE`, function will check each cancer subgroup to find whether or not every gene has a record. If the subgroup doesn't have a record for the specific gene, function checks for alternative gene names that cbioportal might use instead of the given gene name.
 
-- __calculate__, a character vector that contains the desired statistical procedures. Default input is `c("frequencyPercentage", "frequencyRatio", "meanValue", "medianValue")`.
+- __calculate__, a character vector that contains the desired statistical procedures. Default input is `c("frequencyPercentage", "frequencyRatio", "meanValue")`. To get all the statistics, use the following instead: `c("frequencyPercentage", "frequencyRatio", "meanValue", "medianValue")`.
 
 - __cutoff__, a number used to limit samples to those that are greater than this number (cutoff). The default value for methylation data is 0.6 while gene expression studies use default value of 2. For methylation studies, it is _observed/expected ratio_, for the rest, it is _z-score_. To change the cutoff to any desired number, change the option to `cutoff = desiredNumber` in which desiredNumber is the number of interest.
 

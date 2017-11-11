@@ -9,8 +9,8 @@
 #' \tabular{lllll}{
 #' Package: \tab cbaf \cr
 #' Type: \tab Package \cr
-#' Version: \tab 1.0.0 \cr
-#' Date: \tab 2017-09-26 \cr
+#' Version: \tab 1.0.1 \cr
+#' Date: \tab 2017-11-11 \cr
 #' License: \tab Artistic-2.0 \cr
 #' }
 #'
@@ -147,7 +147,7 @@ obtainOneStudy <- function(
 
     supported.techniques <- c("RNA-seq",
 
-                              "microRNA-Seq",
+                              "microRNA-seq",
 
                               "Microarray.mRNA",
 
@@ -159,7 +159,7 @@ obtainOneStudy <- function(
 
        length(desiredTechnique)!= 1){
 
-      stop("'desiredTechnique' must contain one of the following techniques: 'RNA-seq', 'microRNA-Seq', 'microarray.mRNA', 'microarray.microRNA' or 'methylation'")
+      stop("'desiredTechnique' must contain one of the following techniques: 'RNA-seq', 'microRNA-seq', 'microarray.mRNA', 'microarray.microRNA' or 'methylation'")
 
     }
 
@@ -180,7 +180,7 @@ obtainOneStudy <- function(
 
                             "mRNA Expression z-Scores (RNA Seq RPKM)")
 
-  } else if(desiredTechnique == "microRNA-Seq"){
+  } else if(desiredTechnique == "microRNA-seq"){
 
     L2.characteristics <- c("microRNA expression Z-scores")
 
@@ -212,7 +212,7 @@ obtainOneStudy <- function(
 
   } else{
 
-    stop("desiredTechnique field can not be left empety. It should be chosen as 'RNA-seq', 'microRNA-Seq', 'microarray.mRNA', 'microarray.microRNA'or 'methylation'")
+    stop("desiredTechnique field can not be left empety. It should be chosen as 'RNA-seq', 'microRNA-seq', 'microarray.mRNA', 'microarray.microRNA'or 'methylation'")
 
   }
 
