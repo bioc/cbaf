@@ -8,8 +8,8 @@
 #' \tabular{lllll}{
 #' Package: \tab cbaf \cr
 #' Type: \tab Package \cr
-#' Version: \tab 1.0.1 \cr
-#' Date: \tab 2017-11-11 \cr
+#' Version: \tab 1.0.2 \cr
+#' Date: \tab 2017-11-12 \cr
 #' License: \tab Artistic-2.0 \cr
 #' }
 #'
@@ -43,7 +43,7 @@
 #' must contain the desired cancer names.
 #'
 #' @param desiredTechnique a character string that is one of the following
-#' techniques: 'RNA-seq', 'microRNA-Seq', 'microarray.mRNA',
+#' techniques: 'RNA-Seq', 'microRNA-Seq', 'microarray.mRNA',
 #' 'microarray.microRNA' or 'methylation'.
 #'
 #' @param cancerCode a logical value that tells the function to use cbioportal
@@ -81,7 +81,7 @@
 #' "Brain Lower Grade Glioma (TCGA, Provisional)",
 #' "Breast Invasive Carcinoma (TCGA, Provisional)")
 #'
-#' obtainMultipleStudies(genes, "test2", studies, "RNA-seq")
+#' obtainMultipleStudies(genes, "test2", studies, "RNA-Seq")
 #'
 #' @author Arman Shahrisa, \email{shahrisa.arman@hotmail.com} [maintainer,
 #' copyright holder]
@@ -150,7 +150,7 @@ obtainMultipleStudies <- function(
 
   if(is.character(desiredTechnique)){
 
-    supported.techniques <- c("RNA-seq",
+    supported.techniques <- c("RNA-Seq",
 
                               "microRNA-Seq",
 
@@ -164,7 +164,7 @@ obtainMultipleStudies <- function(
 
        length(desiredTechnique)!= 1){
 
-      stop("'desiredTechnique' must contain one of the following techniques: 'RNA-seq', 'microRNA-Seq', 'microarray.mRNA', 'microarray.microRNA' or 'methylation'")
+      stop("'desiredTechnique' must contain one of the following techniques: 'RNA-Seq', 'microRNA-Seq', 'microarray.mRNA', 'microarray.microRNA' or 'methylation'")
 
     }
 
@@ -179,7 +179,7 @@ obtainMultipleStudies <- function(
 
   # Choice of high-throughput data type
 
-  if(desiredTechnique == "RNA-seq"){
+  if(desiredTechnique == "RNA-Seq"){
 
     L1.characteristics <- c("Tumor Samples with mRNA data (RNA Seq V2)",
 
@@ -247,7 +247,7 @@ obtainMultipleStudies <- function(
 
   } else{
 
-    stop("desiredTechnique field can not be left empety. It should be chosen as 'RNA-seq', 'microRNA-Seq', 'microarray.mRNA', 'microarray.microRNA'or 'methylation'")
+    stop("desiredTechnique field can not be left empety. It should be chosen as 'RNA-Seq', 'microRNA-Seq', 'microarray.mRNA', 'microarray.microRNA'or 'methylation'")
 
   }
 

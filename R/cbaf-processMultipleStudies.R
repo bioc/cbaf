@@ -12,8 +12,8 @@
 #' \tabular{lllll}{
 #' Package: \tab cbaf \cr
 #' Type: \tab Package \cr
-#' Version: \tab 1.0.1 \cr
-#' Date: \tab 2017-11-11 \cr
+#' Version: \tab 1.0.2 \cr
+#' Date: \tab 2017-11-12 \cr
 #' License: \tab Artistic-2.0 \cr
 #' }
 #'
@@ -46,7 +46,7 @@
 #'   must contain the desired cancer names.
 #'
 #' @param desiredTechnique a character string that is one of the following
-#' techniques: 'RNA-seq', 'microRNA-Seq', 'microarray.mRNA',
+#' techniques: 'RNA-Seq', 'microRNA-Seq', 'microarray.mRNA',
 #' 'microarray.microRNA' or 'methylation'.
 #'
 #' @param cancerCode a logical value that tells the function to use cbioportal
@@ -165,7 +165,7 @@
 #' "Brain Lower Grade Glioma (TCGA, Provisional)",
 #' "Breast Invasive Carcinoma (TCGA, Provisional)")
 #'
-#' processMultipleStudies(genes, "test2", studies, "RNA-seq",
+#' processMultipleStudies(genes, "test2", studies, "RNA-Seq",
 #' calculate = c("frequencyPercentage", "frequencyRatio"), heatmapMargines =
 #' c(16,10), RowCex = 1, ColCex = 1)
 #'

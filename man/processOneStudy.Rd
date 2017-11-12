@@ -25,7 +25,7 @@ standard cancer study name that can be found on cbioportal.org, such as
 'Acute Myeloid Leukemia (TCGA, NEJM 2013)'.}
 
 \item{desiredTechnique}{a character string that is one of the following
-techniques: 'RNA-seq', 'microRNA-Seq', 'microarray.mRNA',
+techniques: 'RNA-Seq', 'microRNA-Seq', 'microarray.mRNA',
 'microarray.microRNA' or 'methylation'.}
 
 \item{desiredCaseList}{a numeric vector that contains the index of desired
@@ -145,8 +145,8 @@ ratio, mean value and median value of samples greather than specific value in
 \tabular{lllll}{
 Package: \tab cbaf \cr
 Type: \tab Package \cr
-Version: \tab 1.0.1 \cr
-Date: \tab 2017-11-11 \cr
+Version: \tab 1.0.2 \cr
+Date: \tab 2017-11-12 \cr
 License: \tab Artistic-2.0 \cr
 }
 }
@@ -156,7 +156,7 @@ genes <- list(K.demethylases = c("KDM1A", "KDM1B", "KDM2A", "KDM2B", "KDM3A",
  "EHMT1", "EHMT2", "SETDB1", "SETDB2", "KMT2A", "KMT2A"))
 
 processOneStudy(genes, "test", "Breast Invasive Carcinoma (TCGA, Cell 2015)",
-"RNA-seq", desiredCaseList = c(2,3,4,5), calculate = c("frequencyPercentage",
+"RNA-Seq", desiredCaseList = c(2,3,4,5), calculate = c("frequencyPercentage",
 "frequencyRatio"), heatmapMargines = c(16, 10), RowCex = 1, ColCex = 1)
 
 }

@@ -9,8 +9,8 @@
 #' \tabular{lllll}{
 #' Package: \tab cbaf \cr
 #' Type: \tab Package \cr
-#' Version: \tab 1.0.1 \cr
-#' Date: \tab 2017-11-11 \cr
+#' Version: \tab 1.0.2 \cr
+#' Date: \tab 2017-11-12 \cr
 #' License: \tab Artistic-2.0 \cr
 #' }
 #'
@@ -40,7 +40,7 @@
 #'  'Acute Myeloid Leukemia (TCGA, NEJM 2013)'.
 #'
 #' @param desiredTechnique a character string that is one of the following
-#' techniques: 'RNA-seq', 'microRNA-Seq', 'microarray.mRNA',
+#' techniques: 'RNA-Seq', 'microRNA-Seq', 'microarray.mRNA',
 #' 'microarray.microRNA' or 'methylation'.
 #'
 #' @param desiredCaseList a numeric vector that contains the index of desired
@@ -74,7 +74,7 @@
 #'  "EHMT1", "EHMT2", "SETDB1", "SETDB2", "KMT2A", "KMT2A"))
 #'
 #' obtainOneStudy(genes, "test", "Breast Invasive Carcinoma (TCGA, Cell 2015)",
-#' "RNA-seq", desiredCaseList = c(2,3,4,5))
+#' "RNA-Seq", desiredCaseList = c(2,3,4,5))
 #'
 #'
 #'
@@ -145,9 +145,9 @@ obtainOneStudy <- function(
 
   if(is.character(desiredTechnique)){
 
-    supported.techniques <- c("RNA-seq",
+    supported.techniques <- c("RNA-Seq",
 
-                              "microRNA-seq",
+                              "microRNA-Seq",
 
                               "Microarray.mRNA",
 
@@ -159,7 +159,7 @@ obtainOneStudy <- function(
 
        length(desiredTechnique)!= 1){
 
-      stop("'desiredTechnique' must contain one of the following techniques: 'RNA-seq', 'microRNA-seq', 'microarray.mRNA', 'microarray.microRNA' or 'methylation'")
+      stop("'desiredTechnique' must contain one of the following techniques: 'RNA-Seq', 'microRNA-Seq', 'microarray.mRNA', 'microarray.microRNA' or 'methylation'")
 
     }
 
@@ -174,13 +174,13 @@ obtainOneStudy <- function(
 
   # Choice of high-throughput data type
 
-  if(desiredTechnique == "RNA-seq"){
+  if(desiredTechnique == "RNA-Seq"){
 
     L2.characteristics <- c("mRNA Expression z-Scores (RNA Seq V2 RSEM)",
 
                             "mRNA Expression z-Scores (RNA Seq RPKM)")
 
-  } else if(desiredTechnique == "microRNA-seq"){
+  } else if(desiredTechnique == "microRNA-Seq"){
 
     L2.characteristics <- c("microRNA expression Z-scores")
 
@@ -212,7 +212,7 @@ obtainOneStudy <- function(
 
   } else{
 
-    stop("desiredTechnique field can not be left empety. It should be chosen as 'RNA-seq', 'microRNA-seq', 'microarray.mRNA', 'microarray.microRNA'or 'methylation'")
+    stop("desiredTechnique field can not be left empety. It should be chosen as 'RNA-Seq', 'microRNA-Seq', 'microarray.mRNA', 'microarray.microRNA'or 'methylation'")
 
   }
 
