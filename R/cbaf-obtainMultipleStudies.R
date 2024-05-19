@@ -984,7 +984,9 @@ obtainMultipleStudies <- function(
             # Alter c.genes to be compatible with gene names in cBioPortal
             # output
 
-            alteredGeneNames <-  sort(gsub("-", ".", genesNames))
+            # alteredGeneNames <-  sort(gsub("-", ".", genesNames))
+
+            alteredGeneNames <-  genesNames
 
 
 
