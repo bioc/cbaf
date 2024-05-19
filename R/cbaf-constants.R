@@ -16,6 +16,8 @@ RNA.Seq_L1.terms <-
 
     "Samples with mRNA data (RNA Seq)",
 
+    "Samples with mRNA data (RNA Seq TPM)",
+
     "All samples")
 
 
@@ -111,7 +113,9 @@ microRNA.Seq_L2.terms <-
 
     # "miRNA expression z-scores (log UQ normalized)",
 
-    "Z-scores of miRNA expression (TPM)"
+    "Z-scores of miRNA expression (TPM)",
+
+    "Z-scores of miRNA expression (RPM)"
 
   )
 
