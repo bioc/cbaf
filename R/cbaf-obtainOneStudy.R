@@ -9,8 +9,8 @@
 #' \tabular{lllll}{
 #' Package: \tab cbaf \cr
 #' Type: \tab Package \cr
-#' Version: \tab 1.20.0 \cr
-#' Date: \tab 2022-10-24 \cr
+#' Version: \tab 1.27.1 \cr
+#' Date: \tab 2024-05-20 \cr
 #' License: \tab Artistic-2.0 \cr
 #' }
 #'
