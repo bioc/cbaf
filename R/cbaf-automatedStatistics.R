@@ -584,7 +584,7 @@ automatedStatistics<- function(
 
         }
 
-        post.topGenes
+        return(post.topGenes)
 
       }
 
@@ -592,8 +592,85 @@ automatedStatistics<- function(
 
 
 
+    preMatrixModifier <- function(unprocessed.list, genes.in.section){
+
+      for(entries in seq_along(unprocessed.list)){
+
+        current.group <- unprocessed.list[[entries]]
+
+        existing.genes.index <- genes.in.section %in% colnames(current.group)
+
+        current.absent.genes <- genes.in.section[! existing.genes.index]
+
+        if(length(current.absent.genes) > 0){
+
+          empty.matrix <- matrix(
+
+            rep(NA, length(current.absent.genes)),
+
+            nrow = 1
+
+          )
+
+          rownames(empty.matrix) <- rownames(current.group)
+
+          colnames(empty.matrix) <- current.absent.genes
+
+          combined.current.group <- cbind(current.group, empty.matrix)
+
+          sort.index <- match(sort(colnames(combined.current.group)),
+
+                              colnames(combined.current.group))
+
+          unprocessed.list[[entries]] <-
+
+            combined.current.group[,sort.index, drop = FALSE]
+
+        }else{
+
+          unprocessed.list[[entries]] <- current.group
+
+        }
+
+      }
+
+      return(unprocessed.list)
+
+    }
+
+
+
     ############################################################################
     ########## Core segment
+
+    # finding the maximum gene names available for each gene group
+
+    geneGroup <- vector("list", length = length(sourceDataList))
+
+    names(geneGroup) <- names(sourceDataList)
+
+    lowerGroup <- vector("list", length = length(sourceDataList[[1]]))
+
+
+    for(geneGroupMax in seq_along(sourceDataList)){
+
+      for(lowerGroupMax in seq_along(sourceDataList[[1]])){
+
+        lowerGroup[[lowerGroupMax]] <-
+
+          colnames(sourceDataList[[geneGroupMax]][[lowerGroupMax]])
+
+      }
+
+      geneGroup[[geneGroupMax]] <- unique(unlist(lowerGroup))
+
+    }
+
+
+
+
+
+
 
     # calculating the first 'for' loop for different gene groups
 
@@ -671,6 +748,8 @@ automatedStatistics<- function(
         source.data.subset.name <- names(sourceDataList[[gg]])[cs]
 
         genes.involved <- colnames(sourceDataList[[gg]][[cs]])
+
+        max.genes.involved <- geneGroup[[gg]]
 
 
 
@@ -1230,7 +1309,13 @@ automatedStatistics<- function(
 
       if("frequencyPercentage" %in% calculate){
 
-        temList$Frequency.Percentage <- do.call("rbind", Frequency.Percentage)
+        accounted.Frequency.Percentage <-
+
+          preMatrixModifier(Frequency.Percentage, max.genes.involved)
+
+        temList$Frequency.Percentage <-
+
+          do.call("rbind", accounted.Frequency.Percentage)
 
         if(topGenes){
 
@@ -1245,14 +1330,22 @@ automatedStatistics<- function(
 
       if("frequencyRatio" %in% calculate){
 
-        temList$Frequency.Ratio <- do.call("rbind", Frequency.Ratio)
+        accounted.Frequency.Ratio <-
+
+          preMatrixModifier(Frequency.Ratio, max.genes.involved)
+
+        temList$Frequency.Ratio <- do.call("rbind", accounted.Frequency.Ratio)
 
       }
 
 
       if("meanValue" %in% calculate){
 
-        temList$Mean.Value <- do.call("rbind", Mean.Value)
+        accounted.Mean.Value <-
+
+          preMatrixModifier(Mean.Value, max.genes.involved)
+
+        temList$Mean.Value <- do.call("rbind", accounted.Mean.Value)
 
         if(topGenes){
 
@@ -1267,7 +1360,11 @@ automatedStatistics<- function(
 
       if("medianValue" %in% calculate){
 
-        temList$Median.Value <- do.call("rbind", Median.Value)
+        accounted.Median.Value <-
+
+          preMatrixModifier(Median.Value, max.genes.involved)
+
+        temList$Median.Value <- do.call("rbind", accounted.Median.Value)
 
         if(topGenes){
 
