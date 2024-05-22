@@ -628,7 +628,13 @@ automatedStatistics<- function(
 
         }else{
 
-          unprocessed.list[[entries]] <- current.group
+          sort.index <- match(sort(colnames(current.group)),
+
+                              colnames(current.group))
+
+          unprocessed.list[[entries]] <-
+
+            current.group[,sort.index, drop = FALSE]
 
         }
 
