@@ -235,6 +235,8 @@ unique values in one or few cancer studies while `highValue` ranks the genes whe
 
 - __transposeResults__, a logical value to replace the columns and rows of the output.
 
+- __downloadOnServer__, a logical value that activates a two step procedure, in which, Data are downloaded on a server and then the generated zip file can be transferred to a local computer to continue the procedure. The default value is `FALSE`.
+
 To get more information about the function options, please refer to the child function to whom they correspond, for example `genesList` lies within `obtainMultipleStudies()` function. The following is an example showing how this function can be used:
 
 ```{r}

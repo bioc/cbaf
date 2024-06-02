@@ -17,6 +17,7 @@
 #' License: \tab Artistic-2.0 \cr
 #' }
 #'
+#' @importFrom zip zip unzip
 #'
 #' @include cbaf-obtainMultipleStudies.R cbaf-automatedStatistics.R
 #' cbaf-heatmapOutput.R cbaf-xlsxOutput.R
@@ -29,7 +30,7 @@
 #'   RowCex = "auto", ColCex = "auto", heatmapMargines = "auto",
 #'   rowLabelsAngle = 0, columnLabelsAngle = 45, heatmapColor = "RdBu",
 #'   reverseColor = TRUE, transposedHeatmap = FALSE, simplifyBy = FALSE,
-#'   genesToDrop = FALSE, transposeResults = FALSE)
+#'   genesToDrop = FALSE, transposeResults = FALSE, downloadOnServer = FALSE)
 #'
 #'
 #'
@@ -165,6 +166,10 @@
 #' @param transposeResults a logical value that enables the function to replace
 #' the columns and rows of data.
 #'
+#' @param downloadOnServer a logical value that enables the function to download
+#' data on server and store the database as a zip file. This zip file can be
+#' imported later into R locally for further steps that can't run on server.
+#'
 #'
 #'
 #' @return a BiocFileCache object that containes some or all of the following
@@ -259,126 +264,340 @@ processMultipleStudies <- function(
 
   genesToDrop = FALSE,
 
-  transposeResults = FALSE
+  transposeResults = FALSE,
 
-  ){
+  downloadOnServer = FALSE
+
+){
+
+  ##############################################################################
+  #Server check
+
+  if(is.logical(downloadOnServer)){
+
+    if(downloadOnServer == TRUE){
+
+      message("[processMultipleStudies] Are you currently using the CBAF package on a server (TRUE / FALSE) ?")
+
+      computerType <-
+
+        readline("Your choice(s): ")
+
+      if(computerType == "TRUE"){
+
+        downloadCheck = TRUE
+
+        ProcessCheck = FALSE
+
+      }else if(computerType == "FALSE"){
+
+        downloadCheck = FALSE
+
+        ProcessCheck = TRUE
+
+      }else{
+
+        stop("[processMultipleStudies] Acceptable values are TRUE and FALSE.")
+
+      }
+
+    }else if(downloadOnServer == FALSE){
+
+      downloadCheck = TRUE
+
+      ProcessCheck = TRUE
+
+    }else{
+
+      stop("[processMultipleStudies] 'downloadOnServer' must have either TRUE or FALSE.")
+
+    }
+
+  }else{
+
+    stop("[processMultipleStudies] 'downloadOnServer' must have a logical value")
+
+  }
+
+
+  ##############################################################################
+  ### Prerequisites
+
+  present.directory <- getwd()
+
+  package.path <- system.file("extdata", package = "cbaf")
+
+  databases.exist <- list.files(package.path)
+
+  database.directory <- paste0(package.path, "/", submissionName)
+
 
   ##############################################################################
   ### Obtaining data
 
-  obtainMultipleStudies(
+  if(downloadCheck == TRUE){
 
-    genesList = genesList,
+    obtainMultipleStudies(
 
-    submissionName = submissionName,
+      genesList = genesList,
 
-    studiesNames = studiesNames,
+      submissionName = submissionName,
 
-    desiredTechnique = desiredTechnique,
+      studiesNames = studiesNames,
 
-    cancerCode = cancerCode,
+      desiredTechnique = desiredTechnique,
 
-    validateGenes = validateGenes
+      cancerCode = cancerCode,
+
+      validateGenes = validateGenes
 
     )
 
-  message("")
+    message("")
+
+  }
+
+
+  ##############################################################################
+  ### Exporting BiocFileCache database
+
+  if(downloadOnServer == TRUE){
+
+    if(downloadCheck == TRUE){
+
+      if(any(submissionName %in% databases.exist)){
+
+        zip.file <- paste0(present.directory, "/", submissionName, ".zip")
+
+        files2zip <- list.files(path = database.directory,
+
+                                full.names = TRUE,
+
+                                recursive = TRUE)
+
+        zip(zipfile = zip.file, files = files2zip, root = database.directory)
+
+        message("[processMultipleStudies] The database was stored as a zip file titled '",
+
+                submissionName,
+
+                ".zip'",
+
+                "in ",
+
+                present.directory,
+
+                " directory. Please transfer it to your local computer for",
+
+                " processing.")
+
+      }else{
+
+        stop("[processMultipleStudies] The database ",
+
+             submissionName,
+
+             " can not be exproted as it does not exist! ",
+
+             "The package must be run on server first to donwload the required data to build the database!")
+
+      }
+
+    }
+
+  }
+
+
+
+  ##############################################################################
+  ### Importing BiocFileCache database
+
+  if(downloadOnServer == TRUE){
+
+    if(ProcessCheck == TRUE){
+
+      package.path <- system.file("extdata", package = "cbaf")
+
+      zip.file <- paste0(present.directory, "/", submissionName, ".zip")
+
+      if(! file.exists(zip.file)){
+
+        stop("[processMultipleStudies] There is no zip file '",
+
+             submissionName,
+
+             ".zip' ",
+
+             "in the present directory!")
+
+      }else{
+
+        if(! submissionName %in% databases.exist){
+
+          dir.create(database.directory)
+
+          unzip(zip.file,
+
+                files = NULL,
+
+                exdir = database.directory)
+
+        }else if(submissionName %in% databases.exist){
+
+          message("[processMultipleStudies] A database with the name ",
+
+                  submissionName,
+
+                  " already exists locally among the databses created by CBAF",
+
+                  ". Rewrite the contents of that folder? ( TRUE / FALSE )")
+
+          folder.responce <- readline(prompt = "Answer: ")
+
+          if(folder.responce == "TRUE"){
+
+            unzip(zip.file,
+
+                  files = NULL,
+
+                  exdir = database.directory)
+
+            message("[processMultipleStudies] The local database was replaced!")
+
+          }else if(folder.responce == "FALSE"){
+
+            stop("[processMultipleStudies] The function stopped!")
+
+          }else{
+
+            stop("[processMultipleStudies] The responce should be either TRUE",
+
+                 " of FALSE!")
+
+          }
+
+        }
+
+      }
+
+    }
+
+  }
 
 
   ##############################################################################
   ### Calculating statistics
 
-  automatedStatistics(
+  if(ProcessCheck == TRUE){
 
-    submissionName = submissionName,
+    automatedStatistics(
 
-    obtainedDataType = "multiple studies",
+      submissionName = submissionName,
 
-    calculate = calculate,
+      obtainedDataType = "multiple studies",
 
-    cutoff = cutoff,
+      calculate = calculate,
 
-    round = round,
+      cutoff = cutoff,
 
-    topGenes = topGenes
+      round = round,
+
+      topGenes = topGenes
 
     )
 
-  message("")
+    message("")
+
+  }
 
 
   ##############################################################################
   ##############################################################################
   ### Create new directory for submission
 
-  present.directory <- getwd()
+  if(ProcessCheck == TRUE){
 
-  new.directory <- paste0(
+    new.directory <- paste0(
 
-    present.directory, "/", submissionName, " output for multiple studies"
+      present.directory, "/", submissionName, " output for multiple studies"
 
-  )
+    )
 
 
-  dir.create(new.directory , showWarnings = FALSE)
+    dir.create(new.directory , showWarnings = FALSE)
 
-  setwd(new.directory)
+    setwd(new.directory)
+
+  }
 
 
   ##############################################################################
   ### Preparing for heatmap output
 
-  heatmapOutput(
+  if(ProcessCheck == TRUE){
 
-    submissionName = submissionName,
+    heatmapOutput(
 
-    shortenStudyNames = shortenStudyNames,
+      submissionName = submissionName,
 
-    geneLimit = geneLimit,
+      shortenStudyNames = shortenStudyNames,
 
-    rankingMethod = rankingMethod,
+      geneLimit = geneLimit,
 
-    heatmapFileFormat = heatmapFileFormat,
+      rankingMethod = rankingMethod,
 
-    resolution = resolution,
+      heatmapFileFormat = heatmapFileFormat,
 
-    RowCex = RowCex,
+      resolution = resolution,
 
-    ColCex = ColCex,
+      RowCex = RowCex,
 
-    heatmapMargines = heatmapMargines,
+      ColCex = ColCex,
 
-    rowLabelsAngle = rowLabelsAngle,
+      heatmapMargines = heatmapMargines,
 
-    columnLabelsAngle = columnLabelsAngle,
+      rowLabelsAngle = rowLabelsAngle,
 
-    heatmapColor = heatmapColor,
+      columnLabelsAngle = columnLabelsAngle,
 
-    reverseColor = reverseColor,
+      heatmapColor = heatmapColor,
 
-    transposedHeatmap = transposedHeatmap,
+      reverseColor = reverseColor,
 
-    simplifyBy = simplifyBy,
+      transposedHeatmap = transposedHeatmap,
 
-    genesToDrop = genesToDrop
+      simplifyBy = simplifyBy,
+
+      genesToDrop = genesToDrop
 
     )
 
-  message("")
+    message("")
+
+  }
 
 
   ##############################################################################
   ### Preparing for excel output
 
-  xlsxOutput(submissionName = submissionName,
+  if(ProcessCheck == TRUE){
 
-             transposeResults = transposeResults)
+    xlsxOutput(submissionName = submissionName,
+
+               transposeResults = transposeResults)
+
+  }
 
 
   ##############################################################################
   ##############################################################################
   ### Change the directory to the first directory
 
-  setwd(present.directory)
+  if(ProcessCheck == TRUE){
+
+    setwd(present.directory)
+
+  }
 
 }
+
