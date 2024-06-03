@@ -3,13 +3,13 @@ cbaf 1.28.0 - 2024-10-24
 
 New Features
 
-- Introducing two step procedure for processMultipleStudies! If you intend
-  to download the required data on server, CBAF can download and create a
-  database, then it compress the database into a ZIP file. User can then
-  transfer the zipped file to their local computer and recreate the local
-  database from that ZIP file to create the intial database that CBAF needs.
-  Since servers usually lack any graphical unit, CBAF won't be able to
-  generate heatmaps when running on server.
+- Introducing a new two step procedure for processMultipleStudies! If you
+  intend to download the required data on server, CBAF can download and
+  create a database, then it compress the database into a ZIP file. User can
+  then transfer the zipped file into their local computer and CBAF can use
+  that ZIP file to recreate the intial database that it needs. Since servers
+  usually lack any graphical units, CBAF won't be able to generate heatmaps
+  when running on server.
 
 
 
