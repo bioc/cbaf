@@ -562,6 +562,7 @@ availableData <- function(excelFileName, oneOfEach = FALSE){
         # Obtaining positive cancer studies
 
         positive_list <-
+
           combined_list_dataframe$`Cancer Study Name`[positive_index]
 
 
