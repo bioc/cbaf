@@ -367,15 +367,25 @@ processMultipleStudies <- function(
 
       if(any(submissionName %in% databases.exist)){
 
-        zip.file <- paste0(present.directory, "/", submissionName, ".zip")
+        setwd(database.directory)
 
-        files2zip <- list.files(path = database.directory,
+        zip.file <- paste0(submissionName, ".zip")
 
-                                full.names = TRUE,
+        files2zip <- list.files()
 
-                                recursive = TRUE)
+        zip::zip(zipfile = zip.file,
 
-        zip(zipfile = zip.file, files = files2zip, root = database.directory)
+                 files = files2zip,
+
+                 root = database.directory,
+
+                 include_directories = FALSE)
+
+        invisible(file.copy(zip.file, present.directory))
+
+        invisible(file.remove(zip.file))
+
+        setwd(present.directory)
 
         message("[processMultipleStudies] The database was stored as a zip file titled '",
 
@@ -432,15 +442,25 @@ processMultipleStudies <- function(
 
       }else{
 
+        existing.zip.file <- file.path(present.directory, zip.file)
+
         if(! submissionName %in% databases.exist){
 
           dir.create(database.directory)
+
+          setwd(database.directory)
+
+          invisible(file.copy(existing.zip.file, getwd()))
 
           unzip(zip.file,
 
                 files = NULL,
 
                 exdir = database.directory)
+
+          invisible(file.remove(zip.file))
+
+          setwd(present.directory)
 
         }else if(submissionName %in% databases.exist){
 
@@ -456,11 +476,19 @@ processMultipleStudies <- function(
 
           if(folder.responce == "TRUE"){
 
+            setwd(database.directory)
+
+            invisible(file.copy(existing.zip.file, getwd()))
+
             unzip(zip.file,
 
                   files = NULL,
 
                   exdir = database.directory)
+
+            invisible(file.remove(zip.file))
+
+            setwd(present.directory)
 
             message("[processMultipleStudies] The local database was replaced!")
 
