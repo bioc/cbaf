@@ -54,8 +54,8 @@ alternative gene names.
 \tabular{lllll}{
 Package: \tab cbaf \cr
 Type: \tab Package \cr
-Version: \tab 1.27.3 \cr
-Date: \tab 2024-06-03 \cr
+Version: \tab 1.27.4 \cr
+Date: \tab 2024-06-30 \cr
 License: \tab Artistic-2.0 \cr
 }
 }
