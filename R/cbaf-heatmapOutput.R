@@ -802,15 +802,14 @@ heatmapOutput <- function(
 
         heatmap.data <- t(statistics.data)
 
-        # Removing NA
-
-        not.just.na <- apply(heatmap.data, 1, function(x) any(!is.na(x)==TRUE))
-
-        heatmap.data <- heatmap.data[not.just.na,, drop = FALSE]
-
-        # Removing NaN
+        #### Replace existing NA/NaN handling
+        heatmap.data[is.na(heatmap.data)] <- 0
 
         heatmap.data[is.nan(heatmap.data)] <- 0
+
+        heatmap.data[is.infinite(heatmap.data)] <- max(heatmap.data[is.finite(heatmap.data)]) * sign(heatmap.data[is.infinite(heatmap.data)])
+
+        # Old Procedure
 
         # Removing rows that contain only 0
 
@@ -1200,26 +1199,7 @@ heatmapOutput <- function(
 
             heatmap.input.matrix <- heatmap.data
 
-            labCol <- colnames(heatmap.input.matrix)
-
-            if(!is.null(heatmap.Oddity)){
-
-              if(heatmap.Oddity == "rows"){
-
-                labRow <- ""
-
-              }
-
-            }else{
-
-              labRow <- rownames(heatmap.input.matrix)
-
-            }
-
-
-          } else if(transposedHeatmap){
-
-            heatmap.input.matrix <- t(heatmap.data)
+            labRow <- rownames(heatmap.input.matrix)
 
             if(!is.null(heatmap.Oddity)){
 
@@ -1235,7 +1215,26 @@ heatmapOutput <- function(
 
             }
 
-            labRow <- rownames(heatmap.input.matrix)
+
+          } else if(transposedHeatmap){
+
+            heatmap.input.matrix <- t(heatmap.data)
+
+            labCol <- colnames(heatmap.input.matrix)
+
+            if(!is.null(heatmap.Oddity)){
+
+              if(heatmap.Oddity == "rows"){
+
+                labRow <- ""
+
+              }
+
+            }else{
+
+              labRow <- rownames(heatmap.input.matrix)
+
+            }
 
           }
 
