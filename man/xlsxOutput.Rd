@@ -27,8 +27,8 @@ obtainOneStudy()/obtainMultipleStudies() and automatedStatistics() functions.
 \tabular{lllll}{
 Package: \tab cbaf \cr
 Type: \tab Package \cr
-Version: \tab 1.27.4 \cr
-Date: \tab 2024-06-30 \cr
+Version: \tab 1.31.1 \cr
+Date: \tab 2025-10-26 \cr
 License: \tab Artistic-2.0 \cr
 }
 }
